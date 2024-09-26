@@ -6,6 +6,6 @@ export default function Contact() {
     let [count,setCount] = useState(0)
     useEffect(() => {},[])
   return (
-    <div>contact</div>
+    <div className='Contact'>contact</div>
   )
 }

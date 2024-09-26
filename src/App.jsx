@@ -12,7 +12,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const routes = createBrowserRouter([
   {path:"", element:<LayOut/>, children: [
-    {path:"home",index:true, element:<Home/>}, 
+    {index:true, element:<Home/>}, 
     {path:"manageplaylist", element:<ManagePlaylist/>}, 
     {path:"*", element:<NotFound/>},
   ]}

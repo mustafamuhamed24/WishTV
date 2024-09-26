@@ -12,9 +12,8 @@ export default function LayOut() {
     <>
       <Navbar/>
 
-    <div className="container mx-auto py-16">
         <Outlet/>
-    </div>
+    
 
       <Footer/>
     </>
