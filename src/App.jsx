@@ -1,38 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+import Home from "./components/Home/Home";
+import ManagePlaylist from "./components/ManagePlaylist/ManagePlaylist";
+import NotFound from "./components/NotFound/NotFound";
+import LayOut from "./components/LayOut/LayOut";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+
+
+const routes = createBrowserRouter([
+  {path:"", element:<LayOut/>, children: [
+    {path:"home",index:true, element:<Home/>}, 
+    {path:"manageplaylist", element:<ManagePlaylist/>}, 
+    {path:"*", element:<NotFound/>},
+  ]}
+])
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <i className='fas fa-home'></i>
-      <h1 className='text-3xl text-green-500'>haytham</h1>
-      <h1 className='text-3xl text-green-500'>haytham</h1>
-      <h1 className='text-3xl text-green-500'>haytham</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="text-3xl text-red-400">
-       Wish Tv
-      </p>
+      <RouterProvider router={routes}></RouterProvider>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
