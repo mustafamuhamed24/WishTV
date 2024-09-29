@@ -17,8 +17,18 @@ import ManagePlaylistRouting from "./components/ManagePlaylistRouting/ManagePlay
 
 const routes = createBrowserRouter([
   {path:"", element:<LayOut/>, children: [
-    {path:"home",index:true, element:<Home/>}, 
-    {path:"manageplaylist", element:<ManagePlaylist/>}, 
+    {index:true, element:<Home/>}, 
+    { 
+      path: "manageplaylistrouting", 
+      element: <ManagePlaylistRouting />,
+      children: [
+        { path: "manageplaylist", element: <ManagePlaylist /> }, 
+        { path: "activatedevices", element: <ActivateDevices /> }, 
+        { path: "switchmac", element: <SwitchMac /> }, 
+        { path: "parentpin", element: <ParentPin /> }, 
+        { path: "accountdetails", element: <AccountDetails /> }, 
+      ]
+    },
     {path:"*", element:<NotFound/>},
   ]}
 ]) 
