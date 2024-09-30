@@ -14,3 +14,42 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+
+#sideBar{
+width: 4vw;
+overflow: hidden;
+transition: .8s;
+.NonActive{
+  @apply flex items-center gap-10 w-full
+}
+.listTitle{
+  visibility: hidden;
+}
+.iconColor{
+  color: #DC97E2;
+}
+}
+
+#sideBar:hover{
+  width: 20vw;
+  transition: .8s;
+  .Active {
+    @apply bg-white text-black rounded flex items-center p-3 gap-10 w-full
+  }  
+  .listTitle{
+    visibility: visible;
+  }
+  .iconColor{
+    color: black;
+  }
+}
+#sideBar ul{
+@apply w-64 p-4 flex flex-col gap-12
+}
+
+#sideBar ul li{
+  @apply gap-10
+}
+
+

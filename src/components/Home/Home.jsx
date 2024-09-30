@@ -7,8 +7,8 @@ export default function Home() {
     useEffect(() => {},[])
   return (
     
-    <div >
+    <div>
       <img src={managepalylists} className='w-full h-full' alt="" />
-      </div>
+    </div>
   )
 }
