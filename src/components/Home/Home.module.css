@@ -1,12 +1,13 @@
-.home{
+/* .home{
     background-image: url('/src/assets/Image/manage\ playlist\ bg.png');
 background-position: center;
 background-size: cover;
 height: 100vh;
+width: 100vw;
 
 }
 .macaddres{
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.856) 43.5%, rgba(0, 0, 0, 0) 100%);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.596) 43.5%, rgba(0, 0, 0, 0) 100%);
     
     width: 33rem;
     height: 25rem;
@@ -17,6 +18,20 @@ height: 100vh;
 
 }
 
+@media (max-width: 768px) {
+    .macaddres {
+      width: 100%;
+      padding: 1rem;
+    }
+  
+    input {
+      width: 100%;
+    }
+  
+    button {
+      width: 100%;
+    }
+  }
 input{
     width: 26rem;
     height: 2.5rem;
@@ -25,4 +40,54 @@ input{
 button{
     width: 26rem;
     height: 2.5rem;
+} */
+
+
+
+/* Add this in your CSS file */
+.home {
+    background-image: url('/src/assets/Image/manage playlist bg.png');
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+    /* width: 100vw; */
 }
+
+form {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.637) 43.5%, rgba(0, 0, 0, 0) 100%);
+
+    /* width: 33rem;
+    height: 25rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 2rem; */
+
+
+}
+
+@media (max-width: 768px) {
+    .home {
+        background-size: contain;
+        height: auto;
+    }
+}
+
+@media (max-width: 640px) {
+    Custom styles for mobile input {
+        width: 100%;
+    }
+
+    button {
+        width: 100%;
+    }
+}
+
+/* input {
+    width: 26rem;
+    height: 2.5rem;
+}
+
+button {
+    width: 26rem;
+    height: 2.5rem;
+} */
