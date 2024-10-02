@@ -3,13 +3,13 @@ import { Outlet, NavLink } from "react-router-dom";
 
 function ManagePlaylistRouting() {
   return (
-    <div className="mx-32">
-      <div className="container mt-20 flex justify-between items-center">
+    <div className="mx-16">
+      <div className="container mt-28 flex justify-center items-start gap-16">
         <nav  id="sideBar" className="bg-black text-white rounded">
           <ul className="text-[18px] font-[600]">
             <li>
               <NavLink
-                to="manageplaylist"
+                to="/manageplaylist"
                 className={({ isActive }) =>
                   isActive
                     ? "Active "

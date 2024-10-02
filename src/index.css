@@ -45,7 +45,7 @@ transition: .8s;
   }
 }
 #sideBar ul{
-@apply w-64 p-4 flex flex-col gap-12
+@apply w-64 p-4 flex flex-col gap-8
 }
 
 #sideBar ul li{
@@ -53,3 +53,10 @@ transition: .8s;
 }
 
 
+.active{
+  @apply text-white;
+}
+
+#bcg{
+  padding: 40px;
+}
