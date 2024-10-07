@@ -3,8 +3,8 @@
 background-position: center;
 background-size: cover;
 height: 100vh;
-width: 100vw;
-
+/* width: 100vw; */
+background-color: black;
 }
 .macaddres{
     background: linear-gradient(180deg, rgba(0, 0, 0, 0.856) 43.5%, rgba(0, 0, 0, 0) 100%);
@@ -13,7 +13,7 @@ width: 100vw;
     height: 25rem;
     margin-left: auto;
     margin-right: auto;
-    padding: 2rem;
+    /* padding: 2rem; */
 }
 
 @media (max-width: 768px) {
@@ -51,7 +51,7 @@ button{
     /* width: 100vw; */
 }
 
-form {
+#login-form {
     background: linear-gradient(180deg, rgba(0, 0, 0, 0.637) 43.5%, rgba(0, 0, 0, 0) 100%);
 
     /* width: 33rem;
@@ -89,3 +89,42 @@ button {
     width: 26rem;
     height: 2.5rem;
 } */
+
+/* @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  
+  .animateMarquee {
+    display: flex;
+    gap: 2rem;
+    animation: marquee 50s linear infinite;
+    width: max-content;
+  } */
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%); /* Only move halfway because we have 2 sets of images */
+    }
+  }
+  
+  .marqueeWrapper {
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .marqueeContent {
+    display: flex;
+    gap: 2rem;
+    animation: marquee 30s linear infinite; /* Adjust speed as needed */
+    width: max-content;
+  }
+  
+  

@@ -36,7 +36,7 @@ export default function About() {
                 <h1 className="font-bold text-2xl lg:text-[3rem] text-[#413F3F] leading-tight">is available</h1>
               <p className="text-[#413F3F] text-lg lg:text-[1.9rem] mt-4 font-medium">
               Available for Android on play store and ios on app store.</p>
-    <img src={appStore} alt="" />
+    <img src={appStore} className='w-[30rem]' alt="" />
             </div>
             <div className="w-full lg:w-1/2 mb-8 lg:mb-0">
               <img src={mobil} alt="Mobile Wish TV" className="mx-auto lg:mx-0" />

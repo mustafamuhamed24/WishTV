@@ -12,6 +12,7 @@ import AddPlayList from "./components/AddPlayList/AddPlayList";
 import EditPlaylist from "./components/EditPlaylist/EditPlaylist"
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ManagePlaylistRouting from "./components/ManagePlaylistRouting/ManagePlaylistRouting";
+import Faqs from "./components/Faqs/Faqs";
 
 const routes = createBrowserRouter([
   {
@@ -19,6 +20,7 @@ const routes = createBrowserRouter([
     element: <LayOut />,
     children: [
       { index: true, element: <Home /> },
+      
       {
         path: "manageplaylist",
         element: <ManagePlaylistRouting />,

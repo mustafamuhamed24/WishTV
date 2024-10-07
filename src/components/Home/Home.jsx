@@ -7,6 +7,10 @@ import lg from '../../assets/Image/lg.png'
 import sony from '../../assets/Image/sony.png'
 import About from '../About/About';
 import Faqs from '../Faqs/Faqs';
+import Contact from '../Contact/Contact';
+import windows from '../../assets/Image/windows.png'
+import apple from '../../assets/Image/apple.png'
+import Marquee from 'react-fast-marquee';
 export default function Home() {
 
   let [count, setCount] = useState(0)
@@ -18,7 +22,7 @@ export default function Home() {
           <h1 className="text-2xl lg:text-3xl text-center my-3">Manage Your Playlist</h1>
 
           <div className={`${classes.macaddres} mt-8 `}>
-            <form className="max-w-xs lg:max-w-sm mx-auto rounded-sm p-6">
+            <form id="login-form" className="max-w-xs lg:max-w-sm mx-auto rounded-sm p-6">
               <h1 className="text-lg lg:text-2xl mb-5 text-center">Login to add your playlist</h1>
 
               <div className="mb-5">
@@ -50,7 +54,7 @@ export default function Home() {
             </form>
           </div>
 
-          <div className="mt-12">
+          <div>
             <h1 className="text-3xl lg:text-4xl text-[#B269B9] font-bold text-center">WishTv</h1>
             <p className="text-sm lg:text-2xl max-w-3xl mx-auto">
               Our platform is the hub for entertainment solutions, boasting an extensive collection of streaming technologies
@@ -61,22 +65,49 @@ export default function Home() {
       </section>
 
 
-      <section>
+      {/* <section className='bg-black'>
         <img src={wishTv} className="w-full h-auto" alt="Wish TV" />
+      </section> */}
+      <section className='w-full h-screen'
+        style={{
+          backgroundImage: `url(${wishTv})`,
+        }}
+      >
       </section>
 
-      <section className="bg-black py-20 text-center">
-        <h3 className="text-white mb-8 text-lg lg:text-2xl">Watch Wish TV with these compatible streaming devices</h3>
 
-        <div className="flex flex-col lg:flex-row justify-around items-center space-y-6 lg:space-y-0 lg:space-x-8">
-          <img src={samsung} className="w-40 lg:w-60" alt="Samsung" />
-          <img src={android} className="w-40 lg:w-48" alt="Android" />
-          <img src={lg} className="w-32 lg:w-32" alt="LG" />
-          <img src={sony} className="w-40 lg:w-48" alt="Sony" />
-        </div>
-      </section>
-<About />
-<Faqs />
+     
+
+      <section className="bg-black py-20 text-center overflow-hidden">
+  <h3 className="text-white mb-8 text-lg lg:text-2xl">
+    Watch Wish TV with these compatible streaming devices
+  </h3>
+
+  {/* Marquee Container */}
+  <div className={classes.marqueeWrapper}>
+    <div className={`${classes.marqueeContent} flex space-x-8 justify-center items-center`}>
+      {/* Original Set of Images */}
+      <img src={samsung} className="w-40 lg:w-64 mx-4" alt="Samsung" />
+      <img src={android} className="w-40 lg:w-40 h-[3rem]  mx-4" alt="Android" />
+      <img src={lg} className="w-32 lg:w-32  mx-4" alt="LG" />
+      <img src={sony} className="w-40 lg:w-48  mx-4" alt="Sony" />
+      <img src={windows} className="w-40 lg:w-48  mx-4" alt="Windows" />
+      <img src={apple} className="w-40 lg:w-40  mx-4" alt="Apple" />
+      
+      {/* Duplicate Set of Images */}
+      <img src={samsung} className="w-40 lg:w-64  mx-4" alt="Samsung" />
+      <img src={android} className="w-40 lg:w-40 h-[3rem]  mx-4" alt="Android" />
+      <img src={lg} className="w-32 lg:w-32  mx-4" alt="LG" />
+      <img src={sony} className="w-40 lg:w-48  mx-4" alt="Sony" />
+      <img src={windows} className="w-40 lg:w-48  mx-4" alt="Windows" />
+      <img src={apple} className="w-40 lg:w-40  mx-4" alt="Apple" />
+    </div>
+  </div>
+</section>
+
+      <About />
+      <Faqs />
+      <Contact />
     </>
   )
 }
