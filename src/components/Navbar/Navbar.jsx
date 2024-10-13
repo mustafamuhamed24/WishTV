@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import styles from './Navbar.module.css';
 import Home from '../Home/Home';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-scroll';
+
 
 export default function Navbar() {
 
@@ -76,24 +77,49 @@ export default function Navbar() {
               </svg>
             </button>
           </div>
-          <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-language">
-            <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg  md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-              <li>
-                <NavLink className="text-[#929292]">Home</NavLink>
-              </li>
-              <li>
-                <NavLink to={"/faqs"} className="text-[#929292]">FAQS</NavLink>
-              </li>
-              <li>
-                <NavLink to={"/contact"} className="text-[#929292]">Contact us</NavLink>
-              </li>
-              {isLoggedIn ? (
-                <li>
-                  <NavLink to="/manageplaylist" className="text-[#929292]">ManagePlaylist</NavLink>
-                </li>
-               ):null}
-            </ul>
-          </div>
+          <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-language">
+  <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg  md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+    <li>
+      <Link 
+        activeClass="active"
+        to="home" // corresponding section id
+        spy={true}
+        smooth={true}
+        offset={-50}
+        duration={500}
+        className="text-[#929292] cursor-pointer"
+      >
+        Home
+      </Link>
+    </li>
+    <li>
+      <Link 
+        activeClass="active"
+        to="faqs" // corresponding section id
+        spy={true}
+        smooth={true}
+        offset={-50}
+        duration={500}
+        className="text-[#929292] cursor-pointer"
+      >
+        FAQS
+      </Link>
+    </li>
+    <li>
+      <Link 
+        activeClass="active"
+        to="contact" 
+        spy={true}
+        smooth={true}
+        offset={-50}
+        duration={500}
+        className="text-[#929292] cursor-pointer"
+      >
+        Contact us
+      </Link>
+    </li>
+  </ul>
+</div>
         </div>
       </nav>
 

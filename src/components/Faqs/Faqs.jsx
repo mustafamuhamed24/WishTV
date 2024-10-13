@@ -54,7 +54,7 @@ export default function Faqs() {
     
     
     <>
-      <section className="bg-[#040404] p-16">
+      <section className="bg-[#040404] p-16" id='faqs'>
         <h1 className="text-[2rem] text-white text-center mb-5">Frequently Asked Questions</h1>
         <div className="text-white p-4 rounded-lg max-w-2xl mx-auto">
           {faqs.map((faq, index) => (

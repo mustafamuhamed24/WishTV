@@ -7,7 +7,7 @@ export default function Contact() {
     useEffect(() => {},[])
     return (
       <>
-<section className="min-h-screen relative flex items-center justify-center">
+<section className="min-h-screen relative flex items-center justify-center" id='contact'>
   {/* Background Image with Blur */}
   
   <div

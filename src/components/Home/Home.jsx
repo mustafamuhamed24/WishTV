@@ -11,6 +11,7 @@ import Faqs from '../Faqs/Faqs';
 import Contact from '../Contact/Contact';
 import windows from '../../assets/Image/windows.png';
 import apple from '../../assets/Image/apple.png';
+import { FloatingWhatsApp } from 'react-floating-whatsapp';
 
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -56,7 +57,7 @@ export default function Home() {
   return (
     <>
 
-      <section className={classes.home}>
+      <section className={classes.home} id="home">
         <div className="text-white h-auto lg:h-screen p-6 lg:p-20">
           <h1 className="text-2xl lg:text-3xl text-center my-3">Manage Your Playlist</h1>
 
@@ -95,6 +96,17 @@ export default function Home() {
                 Login
               </button>
             </form>
+            <FloatingWhatsApp phoneNumber="+1234567890"  // Replace with your WhatsApp number
+              accountName="WishTV"  // Customize with your name or business name
+              avatar="https://example.com/avatar.jpg"  // Optional avatar or logo image
+              statusMessage="Typically replies within 1 hour"
+              chatMessage="Hello! How can we help you?"
+              allowEsc
+              allowClickAway
+              className='text-black w-[18rem]'
+              placeholder='Send Us Your Proplem'>
+                
+              </FloatingWhatsApp>
           </div>
 
           <div>
@@ -107,21 +119,36 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-full h-screen" style={{ backgroundImage: `url(${wishTv})` }}>
+      <section className='w-full h-screen bg-cover bg-center sm:h-96 md:h-[60vh] lg:h-screen'
+        style={{
+          backgroundImage: `url(${wishTv})`,
+        }}>
+
       </section>
 
       <section className="bg-black py-20 text-center overflow-hidden">
         <h3 className="text-white mb-8 text-lg lg:text-2xl">
           Watch Wish TV with these compatible streaming devices
         </h3>
+
+        {/* Marquee Container */}
         <div className={classes.marqueeWrapper}>
           <div className={`${classes.marqueeContent} flex space-x-8 justify-center items-center`}>
+            {/* Original Set of Images */}
             <img src={samsung} className="w-40 lg:w-64 mx-4" alt="Samsung" />
-            <img src={android} className="w-40 lg:w-40 h-[3rem] mx-4" alt="Android" />
-            <img src={lg} className="w-32 lg:w-32 mx-4" alt="LG" />
-            <img src={sony} className="w-40 lg:w-48 mx-4" alt="Sony" />
-            <img src={windows} className="w-40 lg:w-48 mx-4" alt="Windows" />
-            <img src={apple} className="w-40 lg:w-40 mx-4" alt="Apple" />
+            <img src={android} className="w-40 lg:w-40 h-[3rem]  mx-4" alt="Android" />
+            <img src={lg} className="w-32 lg:w-32  mx-4" alt="LG" />
+            <img src={sony} className="w-40 lg:w-48  mx-4" alt="Sony" />
+            <img src={windows} className="w-40 lg:w-48  mx-4" alt="Windows" />
+            <img src={apple} className="w-40 lg:w-40  mx-4" alt="Apple" />
+
+            {/* Duplicate Set of Images */}
+            <img src={samsung} className="w-40 lg:w-64  mx-4" alt="Samsung" />
+            <img src={android} className="w-40 lg:w-40 h-[3rem]  mx-4" alt="Android" />
+            <img src={lg} className="w-32 lg:w-32  mx-4" alt="LG" />
+            <img src={sony} className="w-40 lg:w-48  mx-4" alt="Sony" />
+            <img src={windows} className="w-40 lg:w-48  mx-4" alt="Windows" />
+            <img src={apple} className="w-40 lg:w-40  mx-4" alt="Apple" />
           </div>
         </div>
       </section>
