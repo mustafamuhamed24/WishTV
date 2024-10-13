@@ -32,7 +32,7 @@ transition: .8s;
 }
 
 #sideBar:hover{
-  width: 20vw;
+  width: 19vw;
   transition: .8s;
   .Active {
     @apply bg-white text-black rounded flex items-center p-3 gap-10 w-full
@@ -59,4 +59,9 @@ transition: .8s;
 
 #bcg{
   padding: 40px;
+}
+
+
+.AccDetails {
+  @apply flex items-center justify-between 
 }

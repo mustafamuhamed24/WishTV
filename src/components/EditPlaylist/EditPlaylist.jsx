@@ -1,104 +1,58 @@
 import React, { useState } from 'react';
-import styles from './EditPlaylist.module.css';
+import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 
-export default function AddPlayList() {
-  const [isProtected, setIsProtected] = useState(false); 
+export default function EditPlaylist() {
+  const location = useLocation();
+  const { playlist } = location.state || {}; 
+  const [playlistName, setPlaylistName] = useState(playlist?.playlist_name || '');
+  const [playlistUrl, setPlaylistUrl] = useState(playlist?.playlist_url || '');
+  const [isProtected, setIsProtected] = useState(false);
   const [pin, setPin] = useState('');
   const [confirmPin, setConfirmPin] = useState('');
 
-  const handleCheckboxChange = () => {
-    setIsProtected(!isProtected); 
-  };
-
-  const handlePinChange = (e) => {
-    setPin(e.target.value);
-  };
-
-  const handleConfirmPinChange = (e) => {
-    setConfirmPin(e.target.value);
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post('http://localhost:5000/api/managePlaylists/updatePlaylist', {
+        id: playlist._id,
+        playlist_name: playlistName,
+        playlist_url: playlistUrl,
+      });
+      alert('Playlist updated successfully');
+    } catch (error) {
+      alert('Error updating playlist');
+    }
   };
 
   return (
-    <>
-      <form className="max-w-lg  w-full">
-        <h1 className="text-[#3C3C3C] text-3xl font-bold mb-5">Edit Playlist</h1>
-        <div className="mb-5">
-          <label htmlFor="playlist-name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-            Playlist name
-          </label>
-          <input
-            type="text"
-            id="playlist-name"
-            className="bg-[#F5F5F5] border-0 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-            required
-          />
-        </div>
-        <div className="mb-5">
-          <label htmlFor="playlist-url" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-            Playlist URL
-          </label>
-          <input
-            type="text"
-            id="playlist-url"
-            className="bg-[#F5F5F5] border-0 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-            required
-          />
-        </div>
-        <div className="flex items-start mb-5">
-          <div className="flex items-center h-5">
-            <input
-              id="protect-checkbox"
-              type="checkbox" 
-              className="w-4 h-4 border border-gray-300 rounded focus:bg-[#C067C8] focus:ring-3 focus:ring-[#C067C8] dark:bg-[#C067C8] dark:border-[#C067C8] dark:focus:ring-[#C067C8] dark:ring-offset-gray-800"
-              onChange={handleCheckboxChange}
-            />
-          </div>
-          <label htmlFor="protect-checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-            Protect this playlist
-          </label>
-        </div>
-
-        {isProtected && (
-          <>
-            <div className="mb-5">
-              <label htmlFor="pin" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                PIN
-              </label>
-              <input
-                type="password"
-                id="pin"
-                className="bg-[#F5F5F5] border-0 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                value={pin}
-                onChange={handlePinChange}
-                required
-              />
-            </div>
-            <div className="mb-5">
-              <label htmlFor="confirm-pin" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                Confirm PIN
-              </label>
-              <input
-                type="password"
-                id="confirm-pin"
-                className="bg-[#F5F5F5] border-0 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                value={confirmPin}
-                onChange={handleConfirmPinChange}
-                required
-              />
-            </div>
-          </>
-        )}
-
-        <b className="text-[13px] block text-[#7D7E81]">
-          <span className="text-red-600">NOTE :</span> Protected playlists will not be viewed or modified without entering PIN
-        </b>
-        <br />
-        <center>
-          <button type="submit" className="text-white bg-[#C067C8] font-medium rounded-lg text-xm w-[205px]">
-            Edit
-          </button>
-        </center>
-      </form>
-    </>
+    <form onSubmit={handleUpdate} className="max-w-lg w-full">
+      <h1 className="text-[#3C3C3C] text-3xl font-bold mb-5">Edit Playlist</h1>
+      <div className="mb-5">
+        <label htmlFor="playlist-name" className="block mb-2 text-sm font-medium text-gray-900">Playlist name</label>
+        <input
+          type="text"
+          id="playlist-name"
+          className="bg-[#F5F5F5] border-0 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+          value={playlistName}
+          onChange={(e) => setPlaylistName(e.target.value)}
+          required
+        />
+      </div>
+      <div className="mb-5">
+        <label htmlFor="playlist-url" className="block mb-2 text-sm font-medium text-gray-900">Playlist URL</label>
+        <input
+          type="text"
+          id="playlist-url"
+          className="bg-[#F5F5F5] border-0 text-[#696CD6] text-sm rounded-lg block w-full p-2.5"
+          value={playlistUrl}
+          onChange={(e) => setPlaylistUrl(e.target.value)}
+          required
+        />
+      </div>
+       <center>
+       <button type="submit" className="text-white bg-[#C067C8] font-medium rounded-lg text-xm w-[205px]">Edit</button>
+       </center>
+    </form>
   );
 }

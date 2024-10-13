@@ -12,7 +12,8 @@ import AddPlayList from "./components/AddPlayList/AddPlayList";
 import EditPlaylist from "./components/EditPlaylist/EditPlaylist"
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ManagePlaylistRouting from "./components/ManagePlaylistRouting/ManagePlaylistRouting";
-import Faqs from "./components/Faqs/Faqs";
+// import Faqs from "./components/Faqs/Faqs";
+
 
 const routes = createBrowserRouter([
   {

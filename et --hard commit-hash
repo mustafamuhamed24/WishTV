@@ -1,0 +1,17 @@
+[33me282d55[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m HEAD@{0}: pull origin main: Fast-forward
+[33m2c82195[m HEAD@{1}: reset: moving to HEAD
+[33m2c82195[m HEAD@{2}: pull origin main: Fast-forward
+[33m519a966[m HEAD@{3}: commit (merge): manageUpdate
+[33mb7f4344[m HEAD@{4}: commit: Your message describing the changes
+[33m8f46d53[m HEAD@{5}: pull origin main: Fast-forward
+[33m61edce2[m HEAD@{6}: commit: ManagePlaylist With Components and routes
+[33ma6057c2[m HEAD@{7}: commit: lastUpdated
+[33me3a9cae[m HEAD@{8}: commit: last changes02
+[33md07d24b[m HEAD@{9}: commit (merge): last changes01
+[33mf44ff3f[m HEAD@{10}: commit: last changes01
+[33mbaad46a[m HEAD@{11}: pull origin main: Fast-forward
+[33me362438[m HEAD@{12}: pull origin main: Fast-forward
+[33mabdf9ca[m HEAD@{13}: pull origin main: Fast-forward
+[33mb7dce0c[m HEAD@{14}: reset: moving to HEAD
+[33mb7dce0c[m HEAD@{15}: checkout: moving from main to main
+[33mb7dce0c[m HEAD@{16}: commit (initial): Initial commit

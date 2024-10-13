@@ -5,8 +5,19 @@ import { Link, NavLink } from 'react-router-dom';
 
 export default function Navbar() {
 
-  let [count, setCount] = useState(0)
-  useEffect(() => { }, [])
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // This function simulates checking authentication status.
+  const checkAuth = () => {
+    const token = localStorage.getItem('authToken'); // Example token check
+    return token ? true : false;
+  };
+
+  useEffect(() => {
+    // Check if the user is logged in when the component mounts
+    const loggedIn = checkAuth();
+    setIsLoggedIn(loggedIn);
+  }, []);
   return (
     <>
 
@@ -76,6 +87,11 @@ export default function Navbar() {
               <li>
                 <NavLink to={"/contact"} className="text-[#929292]">Contact us</NavLink>
               </li>
+              {isLoggedIn ? (
+                <li>
+                  <NavLink to="/manageplaylist" className="text-[#929292]">ManagePlaylist</NavLink>
+                </li>
+               ):null}
             </ul>
           </div>
         </div>
