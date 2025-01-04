@@ -3,7 +3,7 @@ import styles from './ParentPin.module.css';
 
 export default function ParentPin() {
     const [pin, setPin] = useState(''); // State for the new PIN
-    const [id, setId] = useState('6707a63b258638d7bde5bfb9'); // Set this to your device ID
+    const [id, setId] = useState('66fadc1e68f2aa11843053be'); // Set this to your device ID
 
     // Effect to run on component mount (if needed)
     useEffect(() => {}, []);
@@ -18,13 +18,13 @@ export default function ParentPin() {
         };
 
         try {
-            const response = await fetch('http://localhost:5000/api/devices/updatePin', {
+            const response = await fetch('http://62.182.85.163:5053/api/devices/updatePin', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(body),
-            });
+            }); 
 
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -32,6 +32,7 @@ export default function ParentPin() {
 
             const data = await response.json();
             console.log('Success:', data); // Handle success response
+            setPin('');
             // You can show a success message or handle redirection here
         } catch (error) {
             console.error('Error:', error); // Handle error response
@@ -50,7 +51,7 @@ export default function ParentPin() {
                         New parent pin
                     </label>
                     <input
-                        type="text"
+                        type="password"
                         id="new-pin"
                         value={pin}
                         onChange={(e) => setPin(e.target.value)} // Update state on change
@@ -63,9 +64,11 @@ export default function ParentPin() {
                     <span className="text-red-600">NOTE:</span> If you forgot your parent pin in the app, you can change the parent pin here.
                 </b>
                 <br />
-                <button type="submit" className="text-white bg-[#C067C8] ml-96 font-medium rounded-lg text-xm w-[205px]">
+                <center>
+                <button type="submit" className="text-white bg-[#C067C8] font-medium rounded-lg text-xm w-[205px]">
                     Save
                 </button>
+                </center>
             </form>
         </>
     );

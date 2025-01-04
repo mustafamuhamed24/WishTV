@@ -10,7 +10,7 @@ export default function About() {
   return (
     <>
 
-      <section className="px-4 py-8 lg:py-16">
+      <section className="px-4 py-8 lg:py-16 z-10">
         <div className="container mx-auto">
 
           {/* First Row */}
@@ -29,8 +29,8 @@ export default function About() {
           </div>
 
           {/* Second Row */}
-          <div className="flex flex-col-reverse lg:flex-row items-center justify-center lg:space-x-8 my-8 lg:py-14 px-4">
-            <div className="w-full lg:w-3/4 text-center lg:text-left">
+          <div className="flex flex-col-reverse lg:flex-row items-center justify-center lg:space-x-8 my-8 lg:py-10">
+            <div className="w-full lg:w-3/4 text-center lg:text-left lg:ml-[6.25rem]">
               <h1 className="font-bold text-2xl lg:text-[2.5rem] text-[#413F3F] leading-tight mb-3">
                 Mobile version of
               </h1>

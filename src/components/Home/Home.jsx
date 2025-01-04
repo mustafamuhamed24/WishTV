@@ -21,17 +21,24 @@ export default function Home() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
-        mac_address: macAddress,
-        device_key: deviceKey,
+      const response = await fetch('https://wish-4a54.onrender.com/user/login', {
+        method:'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          macAddress: macAddress,
+          deviceKey: deviceKey
+        })
       });
 
       if (response.status === 200) {
-        // Login successful, update the state to show the additional navbar item
+        const data = await response.json();
+        localStorage.setItem('authToken', data.token);
+        localStorage.setItem('macAddress', macAddress); // Store MAC address
+        console.log(data);
+        
         setIsLoggedIn(true);
-        const fakeToken = 'your_auth_token'; // Replace this with the actual token from your API
-        localStorage.setItem('authToken', fakeToken); // Store token in localStorage
-        setIsLoggedIn(true); // Update logged-in state
         alert('Login successful!');
         window.location.reload();
       } else {
@@ -42,91 +49,91 @@ export default function Home() {
       alert('Login failed. Please try again.');
     }
   };
-    // This function checks the authentication status
-    const checkAuth = () => {
-      const token = localStorage.getItem('authToken');
-      return token ? true : false;
-    };
 
-    useEffect(() => {
-      // Check if the user is logged in when the component mounts
-      const loggedIn = checkAuth();
-      setIsLoggedIn(loggedIn);
-    }, []);
+  const checkAuth = () => {
+    const token = localStorage.getItem('authToken');
+    return token ? true : false;
+  };
+
+  useEffect(() => {
+    const loggedIn = checkAuth();
+    setIsLoggedIn(loggedIn);
+  }, []);
 
   return (
     <>
 
       <section className={classes.home} id="home">
-        <div className="text-white h-auto lg:h-screen p-6 lg:p-20">
+        <div className="text-white h-auto lg:h-screen p-6 lg:p-16">
           <h1 className="text-2xl lg:text-3xl text-center my-3">Manage Your Playlist</h1>
+          <div className="container h-full">
+            <div className={`${classes.macaddres} mt-4 rounded-xl`}>
+              <form onSubmit={handleLogin} id="login-form" className="max-w-xs lg:max-w-sm mx-auto rounded-sm p-6">
+                <h1 className="text-lg lg:text-2xl mb-5 text-center">Login to add your playlist</h1>
 
-          <div className={`${classes.macaddres} mt-8 `}>
-            <form onSubmit={handleLogin} id="login-form" className="max-w-xs lg:max-w-sm mx-auto rounded-sm p-6">
-              <h1 className="text-lg lg:text-2xl mb-5 text-center">Login to add your playlist</h1>
+                <div className="mb-5">
+                  <label htmlFor="macAddress" className="block mb-2 text-sm lg:text-base text-white">MAC ADDRESS</label>
+                  <input
+                    type="text"
+                    id="macAddress"
+                    value={macAddress}
+                    onChange={(e) => setMacAddress(e.target.value)}
+                    className="w-full h-full p-2.5 bg-gray-50 border text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600"
+                    required
+                  />
+                </div>
 
-              <div className="mb-5">
-                <label htmlFor="macAddress" className="block mb-2 text-sm lg:text-base text-white">MAC ADDRESS</label>
-                <input
-                  type="text"
-                  id="macAddress"
-                  value={macAddress}
-                  onChange={(e) => setMacAddress(e.target.value)}
-                  className="w-full p-2.5 bg-gray-50 border text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600"
-                  required
-                />
-              </div>
+                <div className="mb-5">
+                  <label htmlFor="deviceKey" className="block mb-2 text-sm lg:text-base text-white">DEVICE KEY</label>
+                  <input
+                    type="text"
+                    id="deviceKey"
+                    value={deviceKey}
+                    onChange={(e) => setDeviceKey(e.target.value)}
+                    className="w-full p-2.5 bg-gray-50 border text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600"
+                    required
+                  />
+                </div>
 
-              <div className="mb-5">
-                <label htmlFor="deviceKey" className="block mb-2 text-sm lg:text-base text-white">DEVICE KEY</label>
-                <input
-                  type="text"
-                  id="deviceKey"
-                  value={deviceKey}
-                  onChange={(e) => setDeviceKey(e.target.value)}
-                  className="w-full p-2.5 bg-gray-50 border text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600"
-                  required
-                />
-              </div>
+                <button
+                  type="submit"
+                  className="w-full py-2.5 text-white bg-[#B269B9] hover:bg-[#a158a3] rounded-lg focus:ring focus:outline-none"
+                >
+                  Login
+                </button>
+              </form>
+              <FloatingWhatsApp phoneNumber="+1234567890"  // Replace with your WhatsApp number
+                accountName="WishTV"  // Customize with your name or business name
+                avatar="https://example.com/avatar.jpg"  // Optional avatar or logo image
+                statusMessage="Typically replies within 1 hour"
+                chatMessage="Hello! How can we help you?"
+                allowEsc
+                allowClickAway
+                className='text-black w-[18rem]'
+                placeholder='Send Us Your Proplem'>
 
-              <button
-                type="submit"
-                className="w-full py-2.5 text-white bg-[#B269B9] hover:bg-[#a158a3] rounded-lg focus:ring focus:outline-none"
-              >
-                Login
-              </button>
-            </form>
-            <FloatingWhatsApp phoneNumber="+1234567890"  // Replace with your WhatsApp number
-              accountName="WishTV"  // Customize with your name or business name
-              avatar="https://example.com/avatar.jpg"  // Optional avatar or logo image
-              statusMessage="Typically replies within 1 hour"
-              chatMessage="Hello! How can we help you?"
-              allowEsc
-              allowClickAway
-              className='text-black w-[18rem]'
-              placeholder='Send Us Your Proplem'>
-                
               </FloatingWhatsApp>
-          </div>
+            </div>
 
-          <div>
-            <h1 className="text-3xl lg:text-4xl text-[#B269B9] font-bold text-center">WishTv</h1>
-            <p className="text-sm lg:text-2xl max-w-3xl mx-auto">
-              Our platform is the hub for entertainment solutions, boasting an extensive collection of streaming technologies
-              and thoughtfully curated content.
-            </p>
+            <div>
+              <h1 className="text-3xl lg:text-4xl text-[#B269B9] font-bold text-center">WishTv</h1>
+              <p className="text-sm lg:text-2xl max-w-3xl mx-auto">
+                Our platform is the hub for entertainment solutions, boasting an extensive collection of streaming technologies
+                and thoughtfully curated content.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className='w-full h-screen bg-cover bg-center sm:h-96 md:h-[60vh] lg:h-screen'
+      <section className='w-full h-screen bg-cover bg-center sm:h-96 md:h-[60vh] lg:h-screen z-10'
         style={{
           backgroundImage: `url(${wishTv})`,
         }}>
 
       </section>
 
-      <section className="bg-black py-20 text-center overflow-hidden">
+      <section className="bg-black py-20 text-center overflow-hidden z-10">
         <h3 className="text-white mb-8 text-lg lg:text-2xl">
           Watch Wish TV with these compatible streaming devices
         </h3>

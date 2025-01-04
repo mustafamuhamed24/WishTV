@@ -7,45 +7,33 @@ export default function Footer() {
   useEffect(() => { }, [])
   return (
     <>
-     
-      <footer className="bg-black p-10">
-  <div className="mx-auto w-full max-w-screen-xl">
-    <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 py-6 lg:py-8`}>
-      <div>
-        <h2 className="mb-6 text-sm font-semibold text-white uppercase">About</h2>
-        <p className="text-white font-medium text-base md:text-[18px]">
-          Wish TV offers all image qualities to view our IPTV service everywhere, regardless of your network speed on: Mobile / TV / Android box / PC ..
-        </p>
-      </div>
-      <div>
-        <h2 className="mb-6 text-sm font-semibold text-white uppercase">Technical Support</h2>
-        <ul className="text-white font-medium">
-          <li className="mb-2">
-            <a href="https://wa.me/+4591426091" className="hover:underline">+982763692726</a>
-          </li>
-          <li className="mb-2">
-            <a href="https://wa.me/+971509856234" className="hover:underline">+982763692726</a>
-          </li>
-        </ul>
-      </div>
-      <div>
-        <h2 className="mb-6 text-sm font-semibold text-white uppercase">Policies & Conditions</h2>
-        <ul className="text-white font-medium">
-          <li className="mb-2">
-            <a href="#" className="hover:underline">Terms & Conditions</a>
-          </li>
-          <li className="mb-2">
-            <a href="#" className="hover:underline">Privacy Policy</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div className="px-4 py-6 text-center bg-black-900">
-      <span className="text-sm text-white">Copyright © 2024 Wish TV</span>
-    </div>
-  </div>
-</footer>
-
+      <footer className="bg-black text-white py-8 px-6">
+        <div className="flex flex-col md:flex-row justify-around space-y-6 md:space-y-0">
+          <div className="md:w-1/3">
+            <h2 className="text-xl font-bold mb-4">About</h2>
+            <p className="max-w-md">
+              Wish tv offer all image qualities to view our iptv service everywhere, regardless of your network speed on: Mobile / TV / Android box / PC ..
+            </p>
+          </div>
+          <div className={styles.technicalSupport}>
+            <h2 className="text-xl font-bold mb-4">Policies & Conditions</h2>
+            <ul className="space-y-2">
+              <li><a href="#" className="hover:underline">Terms & Conditions</a></li>
+              <li><a href="#" className="hover:underline">Privacy Policy</a></li>
+            </ul>
+          </div>
+          {/* <div>
+            <h2 className="text-xl font-bold mb-4">Policies & Conditions</h2>
+            <ul className={`${styles.policy} space-y-2`}>
+              <li><a href="#" className="hover:underline">Terms & Conditions</a></li>
+              <li><a href="#" className="hover:underline">Privacy Policy</a></li>
+            </ul>
+          </div> */}
+        </div>
+        <div className="mt-8 text-center">
+          <p>Copyright © 2024 Wish tv</p>
+        </div>
+      </footer>
     </>
   )
 }

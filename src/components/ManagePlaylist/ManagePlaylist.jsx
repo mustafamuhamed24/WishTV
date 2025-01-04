@@ -1,66 +1,146 @@
 import React, { useEffect, useState } from "react";
-import styles from "./ManagePlaylist.module.css";
-import { NavLink } from "react-router-dom";
-import axios from "axios";
-
-
-
+import { NavLink, useNavigate } from "react-router-dom";
+import { Dialog } from "@headlessui/react";
 
 function ManagePlaylist() {
+  const navigate = useNavigate();
   const [playlists, setPlaylists] = useState([]);
   const [filteredPlaylists, setFilteredPlaylists] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [selectedPlaylist, setSelectedPlaylist] = useState(null);
+  const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [macAddress, setMacAddress] = useState('');
 
-  
   useEffect(() => {
     const fetchPlaylists = async () => {
       try {
-        const response = await axios.post("http://localhost:5000/api/managePlaylists/getPlaylists");
-        setPlaylists(response.data);
-        setFilteredPlaylists(response.data);
-        setLoading(false);
+        const response = await fetch("https://wish-4a54.onrender.com/playList/get", {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'authorization': `wisOZ0${localStorage.getItem('authToken')}`
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setPlaylists(data.allPlaylists);
+          setFilteredPlaylists(data.allPlaylists);
+        } else {
+          setError("Failed to load playlists");
+        }
       } catch (err) {
+        console.error("Error fetching playlists:", err);
         setError("Failed to load playlists");
+      } finally {
         setLoading(false);
       }
     };
 
     fetchPlaylists();
+    
+    // Get MAC address from localStorage
+    const storedMacAddress = localStorage.getItem('macAddress');
+    if (storedMacAddress) {
+      setMacAddress(storedMacAddress);
+    }
   }, []);
 
   const handleSearch = (e) => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
     const filtered = playlists.filter((playlist) =>
-      playlist.playlist_name.toLowerCase().includes(query) ||
-      playlist.playlist_url.toLowerCase().includes(query)
+      playlist.name.toLowerCase().includes(query) ||
+      (playlist.url && playlist.url.toLowerCase().includes(query))
     );
     setFilteredPlaylists(filtered);
   };
+
   const handleDelete = async (playlistId) => {
     try {
-      await axios.post("http://localhost:5000/api/managePlaylists/deletePlaylist", {
-        id: playlistId,
+      const response = await fetch(`https://wish-4a54.onrender.com/playList/delete/${playlistId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': `wisOZ0${localStorage.getItem('authToken')}`
+        }
       });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete playlist');
+      }
+
       setPlaylists(playlists.filter((playlist) => playlist._id !== playlistId));
       setFilteredPlaylists(filteredPlaylists.filter((playlist) => playlist._id !== playlistId));
     } catch (err) {
       setError("Failed to delete playlist");
     }
   };
+
+  const handleEdit = (playlist) => {
+    if (playlist.isProtected) {
+      setSelectedPlaylist(playlist);
+      setIsPasswordModalOpen(true);
+    } else {
+      navigate(`editplaylist/${playlist._id}`, { state: { playlist } });
+    }
+  };
+
+  const handlePasswordSubmit = async () => {
+    setPasswordError('');
+    try {
+      const response = await fetch(`https://wish-4a54.onrender.com/playList/checkPassword/${selectedPlaylist._id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': `wisOZ0${localStorage.getItem('authToken')}`
+        },
+        body: JSON.stringify({ password })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setIsPasswordModalOpen(false);
+        navigate(`editplaylist/${selectedPlaylist._id}`, { 
+          state: { 
+            playlist: selectedPlaylist, 
+            password 
+          } 
+        });
+      } else {
+        switch (response.status) {
+          case 404:
+            setPasswordError('Playlist not found');
+            break;
+          case 400:
+            setPasswordError(data.message || 'Invalid request');
+            break;
+          case 500:
+            setPasswordError('Server error occurred');
+            break;
+          default:
+            setPasswordError('An error occurred. Please try again.');
+        }
+      }
+    } catch (err) {
+      console.error("Error checking password:", err);
+      setPasswordError('An error occurred. Please try again.');
+    }
+  };
+
   return (
-    <>
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg p-5">
-        <div className="pb-4 bg-white dark:bg-gray-900">
-          <h1 className="text-[#3C3C3C] font-[700] text-[32px] mb-8">Manage Playlist</h1>
-          <label htmlFor="table-search" className="sr-only text-[#AEB3BD]">Search</label>
-          <div className="relative mt-1 flex items-center gap-3">
-            <div className="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+    <div className="max-w-4xl mx-auto p-4">
+      <div className="space-y-6">
+        <div className="flex flex-col sm:flex-row gap-4">
+          <div className="relative flex-grow">
+            <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
               <svg
-                className="w-4 h-4 text-[#AEB3BD] dark:text-gray-400"
-                aria-hidden="true"
+                className="w-4 h-4 text-[#AEB3BD]"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 20 20"
@@ -76,55 +156,99 @@ function ManagePlaylist() {
             </div>
             <input
               type="text"
-              id="table-search"
               value={searchQuery}
               onChange={handleSearch}
-              className="block pt-2 placeholder:text-[#AEB3BD] ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-full bg-[#F5F5F5] focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="w-full border-none bg-[#F5F5F5] rounded-lg pl-10 pr-4 py-2.5 text-gray-900 placeholder-[#AEB3BD] outline-none"
               placeholder="Search"
             />
-            <div className="btns flex items-center">
-              <button type="button" className="text-white bg-[#080808] font-medium rounded-lg text-sm px-5 py-2.5 me-2 w-36">8c:om:48:n1:ia:c6</button>
-              <NavLink to="addplaylist">
-                <button type="button" className="text-white bg-[#C067C8] font-medium rounded-lg text-sm px-5 py-2.5 me-2 w-32">Add Playlist</button>
-              </NavLink>
-            </div>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <button className="flex-shrink-0 text-black bg-white border border-transparent border-b-black font-medium rounded-lg text-sm py-2.5 w-full sm:w-[180px] sm:bg-black sm:text-white text-center">
+              {macAddress || 'No MAC Address'}
+            </button>
+            <NavLink to="addplaylist" className="flex-shrink-0 w-full sm:w-auto">
+              <button className="w-full text-white bg-[#C067C8] font-medium rounded-lg text-sm px-5 py-2.5">
+                Add Playlist
+              </button>
+            </NavLink>
           </div>
         </div>
+
         {loading ? (
           <p>Loading playlists...</p>
         ) : error ? (
-          <p>{error}</p>
+          <p className="text-red-500">{error}</p>
         ) : (
-          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead className="text-xs rounded-2xl border text-[#4B4C4C] bg-[#F9FAFB] dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                <th scope="col" className="px-6 py-3">Playlist</th>
-                <th scope="col" className="px-6 py-3">URL</th>
-                <th scope="col" className="px-6 py-3">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
+          <div className="bg-white rounded-lg overflow-hidden">
+            <div className="grid grid-cols-12 bg-[#F9FAFB] border-b py-4 px-6">
+              <div className="col-span-3 text-[#4B4C4C] font-medium">Playlist</div>
+              <div className="col-span-7 text-[#4B4C4C] font-medium mx-6">URL</div>
+              <div className="col-span-2 text-[#4B4C4C] font-medium text-right">Actions</div>
+            </div>
+
+            <div className="divide-y">
               {filteredPlaylists.map((playlist) => (
-                <tr key={playlist._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  <td className="px-6 py-4">{playlist.playlist_name}</td>
-                  <td className="px-6 py-4 w-3 font-medium text-[#696CD6] dark:text-white">{playlist.playlist_url}</td>
-                  <td className="px-6 py-4 flex gap-2">
-                    <NavLink to={{ pathname: "editplaylist" }} state={{ playlist }}>
-                      <span className="icon-[ri--edit-2-fill] text-[#7680DE] text-lg"></span>
-                    </NavLink>
+                <div key={playlist._id} className="grid grid-cols-12 py-4 px-6 items-center hover:bg-gray-50">
+                  <div className="col-span-3">{playlist.name}</div>
+                  <div className="col-span-7 text-[#696CD6] truncate mx-6">
+                    {playlist.isProtected ? "Protected" : playlist.url}
+                  </div>
+                  <div className="col-span-2 gap-3 flex md:justify-end md:gap-5 justify-between">
                     <span
-                      className="icon-[ic--baseline-delete] text-[#D40F0F] text-lg cursor-pointer"
+                      className="icon-[ri--edit-2-fill] text-[#7680DE] text-lg cursor-pointer flex-shrink-0"
+                      onClick={() => handleEdit(playlist)}
+                    ></span>
+                    <span
+                      className="icon-[ic--baseline-delete] text-[#D40F0F] text-lg cursor-pointer flex-shrink-0"
                       onClick={() => handleDelete(playlist._id)}
-                    ></span>                  
-                    </td>
-                </tr>
+                    ></span>
+                  </div>
+                </div>
               ))}
-            </tbody>
-          </table>
+            </div>
+          </div>
         )}
       </div>
-    </>
+
+      <Dialog
+        open={isPasswordModalOpen}
+        onClose={() => setIsPasswordModalOpen(false)}
+        className="relative z-50"
+      >
+        <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+        <div className="fixed inset-0 flex items-center justify-center p-4">
+          <Dialog.Panel className="mx-auto max-w-sm rounded bg-white p-6">
+            <Dialog.Title className="text-lg font-medium mb-4">Enter Password</Dialog.Title>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full border border-gray-300 rounded-md px-3 py-2 mb-4"
+              placeholder="Enter password"
+            />
+            {passwordError && (
+              <p className="text-red-500 text-sm mb-4">{passwordError}</p>
+            )}
+            <div className="flex justify-end gap-4">
+              <button
+                onClick={() => setIsPasswordModalOpen(false)}
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handlePasswordSubmit}
+                className="px-4 py-2 text-sm font-medium text-white bg-[#C067C8] rounded-md hover:bg-[#C067C8]/90"
+              >
+                Submit
+              </button>
+            </div>
+          </Dialog.Panel>
+        </div>
+      </Dialog>
+    </div>
   );
 }
 
 export default ManagePlaylist;
+

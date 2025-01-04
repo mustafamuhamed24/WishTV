@@ -11,15 +11,19 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.6.0",
+    "@headlessui/react": "^2.2.0",
     "axios": "^1.7.7",
     "flowbite": "^2.5.2",
     "generate-react-cli": "^8.4.8",
+    "lucide-react": "^0.469.0",
+    "m3u8-parser": "^7.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-fast-marquee": "^1.6.5",
     "react-floating-whatsapp": "^5.0.8",
     "react-router-dom": "^6.26.2",
-    "react-scroll": "^1.9.0"
+    "react-scroll": "^1.9.0",
+    "semantic-ui-popup": "^2.5.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",

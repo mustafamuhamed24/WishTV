@@ -1,35 +1,66 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import axios from 'axios';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function EditPlaylist() {
   const location = useLocation();
-  const { playlist } = location.state || {}; 
-  const [playlistName, setPlaylistName] = useState(playlist?.playlist_name || '');
-  const [playlistUrl, setPlaylistUrl] = useState(playlist?.playlist_url || '');
-  const [isProtected, setIsProtected] = useState(false);
-  const [pin, setPin] = useState('');
-  const [confirmPin, setConfirmPin] = useState('');
+  const navigate = useNavigate();
+  const { playlist } = location.state || {};
+  const [playlistName, setPlaylistName] = useState(playlist?.name || '');
+  const [playlistUrl, setPlaylistUrl] = useState(playlist?.url || '');
+  const [isProtected, setIsProtected] = useState(playlist?.isProtected || false);
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+    setError('');
+
+    if (isProtected && !password) {
+      setError('Password is required for protected playlists');
+      return;
+    }
+
     try {
-      await axios.post('http://localhost:5000/api/managePlaylists/updatePlaylist', {
-        id: playlist._id,
-        playlist_name: playlistName,
-        playlist_url: playlistUrl,
+      const response = await fetch(`https://wish-4a54.onrender.com/playList/update/${playlist._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': `wisOZ0${localStorage.getItem('authToken')}`,
+        },
+        body: JSON.stringify({        
+          name: playlistName,
+          url: playlistUrl,
+          isProtected,
+          ...(isProtected && { password }),
+        }),
       });
-      alert('Playlist updated successfully');
+  
+      if (response.ok) {
+        navigate('/manageplaylist');
+      } else {
+        const result = await response.json();
+        setError(result.message || 'Failed to update playlist');
+      }
     } catch (error) {
-      alert('Error updating playlist');
+      console.error("Error updating playlist:", error);
+      setError('An error occurred while updating the playlist');
     }
   };
 
   return (
     <form onSubmit={handleUpdate} className="max-w-lg w-full">
       <h1 className="text-[#3C3C3C] text-3xl font-bold mb-5">Edit Playlist</h1>
+      
+      {error && (
+        <div className="bg-red-50 text-red-500 p-3 rounded-lg mb-4">
+          {error}
+        </div>
+      )}
+
       <div className="mb-5">
-        <label htmlFor="playlist-name" className="block mb-2 text-sm font-medium text-gray-900">Playlist name</label>
+        <label htmlFor="playlist-name" className="block mb-2 text-sm font-medium text-gray-900">
+          Playlist Name
+        </label>
         <input
           type="text"
           id="playlist-name"
@@ -39,8 +70,11 @@ export default function EditPlaylist() {
           required
         />
       </div>
+
       <div className="mb-5">
-        <label htmlFor="playlist-url" className="block mb-2 text-sm font-medium text-gray-900">Playlist URL</label>
+        <label htmlFor="playlist-url" className="block mb-2 text-sm font-medium text-gray-900">
+          Playlist URL
+        </label>
         <input
           type="text"
           id="playlist-url"
@@ -50,9 +84,46 @@ export default function EditPlaylist() {
           required
         />
       </div>
-       <center>
-       <button type="submit" className="text-white bg-[#C067C8] font-medium rounded-lg text-xm w-[205px]">Edit</button>
-       </center>
+
+      <div className="mb-5">
+        <label className="relative inline-flex items-center cursor-pointer">
+          <input
+            type="checkbox"
+            checked={isProtected}
+            onChange={(e) => setIsProtected(e.target.checked)}
+            className="sr-only peer"
+          />
+          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#C067C8]"></div>
+          <span className="ms-3 text-sm font-medium text-gray-700">Protected Playlist</span>
+        </label>
+        <div><span className='text-red-600'>NOTE:</span> Protected playlists will not be viewed or modified without entering PIN</div>
+      </div>
+
+      {isProtected && (
+        <div className="mb-5">
+          <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">
+            Password
+          </label>
+          <input
+            type="password"
+            id="password"
+            className="bg-[#F5F5F5] border-0 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter password"
+          />
+        </div>
+      )}
+
+      <center>
+        <button 
+          type="submit" 
+          className="text-white bg-[#C067C8] font-medium rounded-lg text-sm w-[205px] py-2.5 hover:bg-[#C067C8]/90"
+        >
+          Save Changes
+        </button>
+      </center>
     </form>
   );
 }
+

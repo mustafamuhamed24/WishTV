@@ -20,3 +20,31 @@
     padding: 10px;
   }
 }
+.policy {
+  color: white;
+  font-size: medium;
+}
+@media (max-width: 500px) and (min-width: 200px) {
+  .policy {
+      display: flex;
+      align-items: center;
+      color: white;
+      text-align: center;
+      justify-content: space-around;
+      gap: 1rem;
+  }
+}
+
+@media (max-width: 500px) and (min-width: 200px) {
+  #mainPolicy {
+      display: flex;
+      justify-content: center;
+      
+  }
+}
+@media (max-width: 500px) and (min-width: 200px) {
+  .technicalSupport {
+      text-align: center;
+      justify-content: center;
+  }
+}

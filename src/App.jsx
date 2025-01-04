@@ -12,23 +12,20 @@ import AddPlayList from "./components/AddPlayList/AddPlayList";
 import EditPlaylist from "./components/EditPlaylist/EditPlaylist"
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ManagePlaylistRouting from "./components/ManagePlaylistRouting/ManagePlaylistRouting";
-// import Faqs from "./components/Faqs/Faqs";
-
 
 const routes = createBrowserRouter([
   {
-    path: "",
+    path: "/",
     element: <LayOut />,
     children: [
       { index: true, element: <Home /> },
-      
       {
         path: "manageplaylist",
         element: <ManagePlaylistRouting />,
         children: [
-          { index: "manageplaylist", element: <ManagePlaylist /> },
+          { index: true, element: <ManagePlaylist /> },
           { path: "addplaylist", element: <AddPlayList /> },
-          { path: "editplaylist", element: <EditPlaylist /> },
+          { path: "editplaylist/:id", element: <EditPlaylist /> },
           { path: "activatedevices", element: <ActivateDevices /> },
           { path: "switchmac", element: <SwitchMac /> },
           { path: "parentpin", element: <ParentPin /> },
@@ -51,3 +48,4 @@ function App() {
 }
 
 export default App;
+
