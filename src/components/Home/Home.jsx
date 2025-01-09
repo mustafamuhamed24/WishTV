@@ -22,7 +22,7 @@ export default function Home() {
     e.preventDefault();
     try {
       const response = await fetch('https://wish-4a54.onrender.com/user/login', {
-        method:'POST',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -37,7 +37,7 @@ export default function Home() {
         localStorage.setItem('authToken', data.token);
         localStorage.setItem('macAddress', macAddress); // Store MAC address
         console.log(data);
-        
+
         setIsLoggedIn(true);
         alert('Login successful!');
         window.location.reload();
@@ -65,43 +65,49 @@ export default function Home() {
 
       <section className={classes.home} id="home">
         <div className="text-white h-auto lg:h-screen p-6 lg:p-16">
-          <h1 className="text-2xl lg:text-3xl text-center my-3">Manage Your Playlist</h1>
+          {isLoggedIn ? null :
+            <h1 className="text-2xl lg:text-3xl text-center my-3">Manage Your Playlist</h1>
+          }
           <div className="container h-full">
-            <div className={`${classes.macaddres} mt-4 rounded-xl`}>
-              <form onSubmit={handleLogin} id="login-form" className="max-w-xs lg:max-w-sm mx-auto rounded-sm p-6">
-                <h1 className="text-lg lg:text-2xl mb-5 text-center">Login to add your playlist</h1>
+            {isLoggedIn ? null :
+              <div className={`${classes.macaddres} mt-4 rounded-xl`}>
+                <form onSubmit={handleLogin} id="login-form" className="max-w-xs lg:max-w-sm mx-auto rounded-sm p-6">
+                  <h1 className="text-lg lg:text-2xl mb-5 text-center">Login to add your playlist</h1>
 
-                <div className="mb-5">
-                  <label htmlFor="macAddress" className="block mb-2 text-sm lg:text-base text-white">MAC ADDRESS</label>
-                  <input
-                    type="text"
-                    id="macAddress"
-                    value={macAddress}
-                    onChange={(e) => setMacAddress(e.target.value)}
-                    className="w-full h-full p-2.5 bg-gray-50 border text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600"
-                    required
-                  />
-                </div>
+                  <div className="mb-5">
+                    <label htmlFor="macAddress" className="block mb-2 text-sm lg:text-base text-white">MAC ADDRESS</label>
+                    <input
+                      type="text"
+                      id="macAddress"
+                      value={macAddress}
+                      onChange={(e) => setMacAddress(e.target.value)}
+                      className="w-full h-full p-2.5 bg-gray-50 border text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600"
+                      required
+                    />
+                  </div>
 
-                <div className="mb-5">
-                  <label htmlFor="deviceKey" className="block mb-2 text-sm lg:text-base text-white">DEVICE KEY</label>
-                  <input
-                    type="text"
-                    id="deviceKey"
-                    value={deviceKey}
-                    onChange={(e) => setDeviceKey(e.target.value)}
-                    className="w-full p-2.5 bg-gray-50 border text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600"
-                    required
-                  />
-                </div>
+                  <div className="mb-5">
+                    <label htmlFor="deviceKey" className="block mb-2 text-sm lg:text-base text-white">DEVICE KEY</label>
+                    <input
+                      type="text"
+                      id="deviceKey"
+                      value={deviceKey}
+                      onChange={(e) => setDeviceKey(e.target.value)}
+                      className="w-full p-2.5 bg-gray-50 border text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600"
+                      required
+                    />
+                  </div>
 
-                <button
-                  type="submit"
-                  className="w-full py-2.5 text-white bg-[#B269B9] hover:bg-[#a158a3] rounded-lg focus:ring focus:outline-none"
-                >
-                  Login
-                </button>
-              </form>
+                  <button
+                    type="submit"
+                    className="w-full py-2.5 text-white bg-[#B269B9] hover:bg-[#a158a3] rounded-lg focus:ring focus:outline-none"
+                  >
+                    Login
+                  </button>
+                </form>
+              </div>
+            }
+            <div>
               <FloatingWhatsApp phoneNumber="+1234567890"  // Replace with your WhatsApp number
                 accountName="WishTV"  // Customize with your name or business name
                 avatar="https://example.com/avatar.jpg"  // Optional avatar or logo image
@@ -111,16 +117,14 @@ export default function Home() {
                 allowClickAway
                 className='text-black w-[18rem]'
                 placeholder='Send Us Your Proplem'>
-
               </FloatingWhatsApp>
-            </div>
 
-            <div>
               <h1 className="text-3xl lg:text-4xl text-[#B269B9] font-bold text-center">WishTv</h1>
               <p className="text-sm lg:text-2xl max-w-3xl mx-auto">
                 Our platform is the hub for entertainment solutions, boasting an extensive collection of streaming technologies
                 and thoughtfully curated content.
               </p>
+
             </div>
           </div>
         </div>
